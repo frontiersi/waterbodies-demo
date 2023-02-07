@@ -14,7 +14,7 @@ This workflow is currently only designed to run locally on Mac OS devices.
 7. Type in `/usr/local` and press Enter
 8. Create a new folder called `geoserver` - you will need to provide your password
 9. Copy and paste the contents of the .zip folder into your new `geoserver` folder
-10. Enable CORS by following the [GeoServer Instructions](https://docs.geoserver.org/latest/en/user/production/container.html#enable-cors). Uncomment the <filter> for Jetty and the <filter-mapping> tags from the `webapps/geoserver/WEB-INF/web.xml` file.
+10. Enable CORS by following the [GeoServer Instructions](https://docs.geoserver.org/latest/en/user/production/container.html#enable-cors). Uncomment the `<filter>` for Jetty and the `<filter-mapping>` tags from the `webapps/geoserver/WEB-INF/web.xml` file.
 11. Open a terminal window and type `echo "export GEOSERVER_HOME=/usr/local/geoserver" >> ~/.profile`, then press Enter
 12. Close the terminal window
 
