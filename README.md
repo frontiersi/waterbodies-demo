@@ -27,7 +27,33 @@ This workflow is currently only designed to run locally on Mac OS devices.
 echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp`
 7. Close the terminal window
 
-### Step 3: Install DBeaver (Optional)
+### Step 3: Install DBeaver
 1. Navigate to the [DBeaver Download page](https://dbeaver.io/download/)
 2. Select the appropriate MacOS .dmg file (Check which chip you have by clicking the Apple icon in your main menu bar and selecting "About this Mac", then look for the "Chip" entry)
 3. Open the .dmg file and move the DBeaver icon to the Applications folder
+
+### Step 4: Create a spatial database
+1. Open Postgres.app and start the server
+2. Open DBeaver and click the "New Database Connection" icon (first icon on the top left of the application window)
+3. Select PostgreSQL and click "Next"
+4. Leave all settings as they are and click "Finish". You should see a new entry in the navigator labled "postgres - localhost:5432"
+5. Click on the postgres entry to reveal the "Databases" item
+6. Right-click on the "Databases" item and click "Create New Database"
+7. Type `waterbodies` as the Database name and leave all other settings as they are. Click "OK"
+8. Right-click the "waterbodies" entry under "Databases" and go to "SQL Editor" then "Open SQL Script"
+9. Type `CREATE EXTENSION postgis;` and press the play button (or Control+Enter on the keyboard)
+10. Replace the above by typing `SELECT postgis_full_version();` and press the play button (or Control+Enter on the keyboard). You should see a results table appear.
+
+### Step 5: Add a shapefile to the spatial database
+1. Open your terminal and navigate to this repository
+2. Create the conda environment for this repository by running `conda env create -f environment.yml` in your terminal
+3. Activate the conda environement by running `conda activate waterbodies`
+4. To add the sample waterbodies shapefile as a table in the database, run the following command, replacing `<username>` with your username (this appears just before the `$` in the terminal e.g. `waterbodies-demo janedoe$`)
+
+```
+ogr2ogr -nln dea_waterbodies_sample -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=uid -lco PRECISION=NO Pg:"dbname=waterbodies host=localhost user=<username> port=5432" data/waterbodies_sample.shp
+```
+
+5. In DBeaver, click the "waterbodies" database, then "Schemas" then "public" then "Tables". You should now see "dea_waterbodies_sample" as an entry under "Tables"
+6. Double click the "dea_waterbodies_sample" entry to open it in the viewing panel. Click "Data" to see the entries
+
