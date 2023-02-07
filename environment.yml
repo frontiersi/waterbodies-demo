@@ -1,0 +1,31 @@
+name: waterbodies
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Python
+  - python=3.9.16
+  - pip
+  # Formatting and Linters
+  - black
+  - mypy
+  - pylint
+  # Jupyter Notebooks
+  - ipykernel
+  - ipython
+  # Utilities
+  - click
+  - tqdm
+  # Spatial
+  - fiona
+  - geopandas
+  - shapely
+  - rasterio
+  # Data Science
+  - matplotlib
+  - numpy
+  - pandas
+  - scikit-learn
+  - scipy
+  # Project-Specific Packages 
+  - psycopg2
