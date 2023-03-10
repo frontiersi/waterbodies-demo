@@ -1,9 +1,8 @@
 """
-Update Database
+Update the database with longest line
 
-This script allows the user to connect to a database and return the version
-This is a baseline that will be adapted to have update capability, in conjunction with 
-code to update the necessary rows based on what has changed
+This script allows the user to connect to a database, and update the values
+for longestl and longestl_m
 """
 import click
 import psycopg2
