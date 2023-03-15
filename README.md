@@ -52,7 +52,7 @@ echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/pat
 4. To add the sample waterbodies shapefile as a table in the database, run the following command, replacing `<username>` with your username (this appears just before the `$` in the terminal e.g. `waterbodies-demo janedoe$`)
 
 ```
-ogr2ogr -nln dea_waterbodies_sample -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid -lco PRECISION=NO Pg:"dbname=waterbodies host=localhost user=<username> port=5432" data/waterbodies_sample.shp
+ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid -lco PRECISION=NO Pg:"dbname=waterbodies host=localhost user=<username> port=5432" data/waterbodies_sample.shp
 ```
 
 5. In DBeaver, click the "waterbodies" database, then "Schemas" then "public" then "Tables". You should now see "dea_waterbodies_sample" as an entry under "Tables"
@@ -97,3 +97,16 @@ ogr2ogr -nln dea_waterbodies_sample -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geo
  9. Press the plus icon next to "dea_waterbodies_sample" 
  10. Click "Done"
  11. Click the "Share/Print" button in the top left and save the URL somewhere for future access. This will save you from needing to repeat the above steps. The link will only work on your local machine if all the required services (i.e. Postgres and GeoServer) are running
+
+## Compute longest line
+To calculate the longest line (and its length), perform the following
+
+1. Open Postgres and start the server
+2. Open DBeaver and ensure you have the `waterbodies` database, containing the `dea_waterbodies` table, and that the table contains the `longestl` and `longestl_m` columns
+3. Open your terminal and navigate to this repository
+4. Activate the conda environement by running `conda activate waterbodies`
+5. Run the `longestline.py` script using
+```
+python longestline.py
+```
+6. Open the `dea_waterbodies` table in DBeaver and check that the `longestl` and `longestl_m` columns contain values
