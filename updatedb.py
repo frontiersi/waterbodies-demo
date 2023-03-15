@@ -7,6 +7,19 @@ code to update the necessary rows based on what has changed
 """
 import click
 import psycopg2
+import pandas as pd
+
+
+def last_sat_pass(csv):
+    """
+    Read a csv and identify the most recent date
+    """
+
+    df = pd.read_csv(csv)
+    df.sort_values(
+        by="date", inplace=True, ascending=True
+    )  # ensures date values are in ascending order
+    return pd.to_datetime(df["date"].iloc[-1]).date()  # returns the date last passed
 
 
 @click.command()
@@ -26,19 +39,41 @@ def updatedb(database):
             database=database,
         )
 
-        # Display connection information
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
-
         # Create a cursor, which will perform data base operations
         cursor = connection.cursor()
 
-        # Select the version from the database
-        cursor.execute("SELECT version();")
+        # Get all ids from database
+        cursor.execute(
+            """
+            SELECT DISTINCT uid, timeseries
+            FROM dea_waterbodies
+        """
+        )
 
-        # Return the information held by the cursor and display
-        record = cursor.fetchone()
-        print(f"You are connected to {record} \n")
+        record = cursor.fetchall()
+
+        # Update rows for each record in the table
+        for uid_tuple in record:
+            uid_value = uid_tuple[0]
+            csv_value = uid_tuple[1]
+
+            dt_satpass_value = last_sat_pass(csv_value)
+
+            dt_satpass_sql = """
+                UPDATE dea_waterbodies
+                SET dt_satpass=%s
+                WHERE uid=%s;
+            """
+            cursor.execute(
+                dt_satpass_sql,
+                (
+                    dt_satpass_value,
+                    uid_value,
+                ),
+            )
+
+            # Execute the database transactions
+            connection.commit()
 
     # Should the connection fail, display an error message
     except (Exception, psycopg2.Error) as error:
