@@ -52,11 +52,11 @@ echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/pat
 4. To add the sample waterbodies shapefile as a table in the database, run the following command, replacing `<username>` with your username (this appears just before the `$` in the terminal e.g. `waterbodies-demo janedoe$`)
 
 ```
-ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid -lco PRECISION=NO Pg:"dbname=waterbodies host=localhost user=<username> port=5432" data/waterbodies_sample.shp
+ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid -lco PRECISION=NO Pg:"dbname=waterbodies host=localhost user=caitlinadams port=5432" data/waterbodies_sample.shp -overwrite
 ```
 
-5. In DBeaver, click the "waterbodies" database, then "Schemas" then "public" then "Tables". You should now see "dea_waterbodies_sample" as an entry under "Tables"
-6. Double click the "dea_waterbodies_sample" entry to open it in the viewing panel. Click "Data" to see the entries
+5. In DBeaver, click the "waterbodies" database, then "Schemas" then "public" then "Tables". You should now see "dea_waterbodies" as an entry under "Tables"
+6. Double click the "dea_waterbodies" entry to open it in the viewing panel. Click "Data" to see the entries
 
 ### Step 6: Launch GeoServer and add the Database
 1. Open your terminal and enter `cd /usr/local/geoserver/bin/`
@@ -71,19 +71,19 @@ ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco 
 10. Click "Add new Store" (green plus icon)
 11. Click "PostGIS - PostGIS Database" (under "Vector Data Sources")
 12. Using the dropdown menu, select "waterbodes" as the "Workspace"
-12. Type `deawaterbodies` in the "Data Source Name" field
+12. Type `dea_waterbodies` in the "Data Source Name" field
 13. Type `Subsample of DEA Waterbodies` in the "Description" field
 14. Type `waterbodies` in the "database" field
 15. Type your username in the "user" field - use the same username as action 4 in step 5 
 16. Leave all other fields as they are and click "Save"
-17. Click "Publish" next to the "dea_waterbodies_sample" in the Layers list that appears 
+17. Click "Publish" next to the "dea_waterbodies" in the Layers list that appears 
 18. Under "Bounding Boxes" click "Compute from data", then "Compute from native bounds"
 19. Click "Apply"
 20. At the top of the page, click the "Publishing" tab
 21. Under WMS Settings, set the "Default Style" to "polygon"
 22. Click "Save"
 
- You should then be able to see the dea_waterbodies_sample in the Layers list
+ You should then be able to see the dea_waterbodies in the Layers list
 
  ### Step 7: View the WFS on DEA Maps
  1. Open [DEA Maps](https://maps.dea.ga.gov.au/)
@@ -94,7 +94,7 @@ ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco 
  6. Type `http://localhost:8080/geoserver/waterbodies/ows` in for Step 2
  7. Click "Add"
  8. Click the "GeoServer Web Feature Service" menu
- 9. Press the plus icon next to "dea_waterbodies_sample" 
+ 9. Press the plus icon next to "dea_waterbodies" 
  10. Click "Done"
  11. Click the "Share/Print" button in the top left and save the URL somewhere for future access. This will save you from needing to repeat the above steps. The link will only work on your local machine if all the required services (i.e. Postgres and GeoServer) are running
 
