@@ -8,18 +8,7 @@ code to update the necessary rows based on what has changed
 import click
 import psycopg2
 import pandas as pd
-
-
-def last_sat_pass(csv):
-    """
-    Read a csv and identify the most recent date
-    """
-
-    df = pd.read_csv(csv)
-    df.sort_values(
-        by="date", inplace=True, ascending=True
-    )  # ensures date values are in ascending order
-    return pd.to_datetime(df["date"].iloc[-1]).date()  # returns the date last passed
+from date_attribute_functions import last_sat_pass, last_wet_obs
 
 
 @click.command()
@@ -53,21 +42,23 @@ def updatedb(database):
         record = cursor.fetchall()
 
         # Update rows for each record in the table
-        for uid_tuple in record:
-            uid_value = uid_tuple[0]
-            csv_value = uid_tuple[1]
+        for uid_value, csv_value in record:
+            df = pd.read_csv(csv_value)
 
-            dt_satpass_value = last_sat_pass(csv_value)
+            dt_satpass_value = last_sat_pass(df)
+            dt_wetobs_value = last_wet_obs(df)
 
             dt_satpass_sql = """
                 UPDATE dea_waterbodies
-                SET dt_satpass=%s
+                SET dt_satpass = %s,
+                    dt_wetobs = %s
                 WHERE uid=%s;
             """
             cursor.execute(
                 dt_satpass_sql,
                 (
                     dt_satpass_value,
+                    dt_wetobs_value,
                     uid_value,
                 ),
             )
