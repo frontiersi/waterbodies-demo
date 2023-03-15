@@ -31,7 +31,7 @@ def last_wet_obs(df):
     return lastwet_date  # returns the last valid observation
 
 
-def pc_wet(df, area_value):
+def last_wet_area(df, area_value):
     """
     Calculates wet area of waterbody at last valid observation
     """

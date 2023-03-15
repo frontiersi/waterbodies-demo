@@ -8,7 +8,7 @@ code to update the necessary rows based on what has changed
 import click
 import psycopg2
 import pandas as pd
-from date_attribute_functions import last_sat_pass, last_wet_obs
+from attribute_functions import last_sat_pass, last_wet_obs, last_wet_area
 
 
 @click.command()
@@ -34,7 +34,7 @@ def updatedb(database):
         # Get all ids from database
         cursor.execute(
             """
-            SELECT DISTINCT uid, timeseries
+            SELECT DISTINCT uid, area_m2, timeseries
             FROM dea_waterbodies
         """
         )
@@ -42,16 +42,18 @@ def updatedb(database):
         record = cursor.fetchall()
 
         # Update rows for each record in the table
-        for uid_value, csv_value in record:
+        for uid_value, area_value, csv_value in record:
             df = pd.read_csv(csv_value)
 
             dt_satpass_value = last_sat_pass(df)
             dt_wetobs_value = last_wet_obs(df)
+            wet_sa_m2_value = last_wet_area(df, area_value)
 
             dt_satpass_sql = """
                 UPDATE dea_waterbodies
                 SET dt_satpass = %s,
-                    dt_wetobs = %s
+                    dt_wetobs = %s,
+                    wet_sa_m2 = %s
                 WHERE uid=%s;
             """
             cursor.execute(
@@ -59,6 +61,7 @@ def updatedb(database):
                 (
                     dt_satpass_value,
                     dt_wetobs_value,
+                    wet_sa_m2_value,
                     uid_value,
                 ),
             )
