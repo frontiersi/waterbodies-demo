@@ -9,6 +9,7 @@ import click
 import psycopg2
 import pandas as pd
 from attribute_functions import last_sat_pass, last_wet_obs, last_wet_area
+from datetime import date, tzinfo
 
 
 @click.command()
@@ -38,8 +39,10 @@ def updatedb(database):
             FROM dea_waterbodies
         """
         )
-
         record = cursor.fetchall()
+
+        # Get today's date
+        dt_updated_value = date.today()
 
         # Update rows for each record in the table
         for uid_value, area_value, csv_value in record:
@@ -53,7 +56,8 @@ def updatedb(database):
                 UPDATE dea_waterbodies
                 SET dt_satpass = %s,
                     dt_wetobs = %s,
-                    wet_sa_m2 = %s
+                    wet_sa_m2 = %s,
+                    dt_updated = %s
                 WHERE uid=%s;
             """
             cursor.execute(
@@ -62,6 +66,7 @@ def updatedb(database):
                     dt_satpass_value,
                     dt_wetobs_value,
                     wet_sa_m2_value,
+                    dt_updated_value,
                     uid_value,
                 ),
             )
