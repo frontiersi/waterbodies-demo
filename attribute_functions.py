@@ -11,7 +11,7 @@ def last_sat_pass(df):
     # sort date values into ascending order
     df.sort_values(by="date", inplace=True, ascending=True)
 
-    satpass_date = pd.to_datetime(df["date"].iloc[-1]).date()
+    satpass_date = pd.to_datetime(df["date"].iloc[-1]).to_pydatetime()
 
     return satpass_date
 
@@ -29,7 +29,7 @@ def last_wet_obs(df):
     if len(df_wet_obs.index) == 0:
         lastwet_date = None
     else:
-        lastwet_date = pd.to_datetime(df_wet_obs["date"].iloc[-1]).date()
+        lastwet_date = pd.to_datetime(df_wet_obs["date"].iloc[-1]).to_pydatetime()
 
     return lastwet_date  # returns the last valid observation
 

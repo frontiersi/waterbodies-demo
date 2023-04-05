@@ -5,11 +5,11 @@ This script allows the user to connect to a database and return the version
 This is a baseline that will be adapted to have update capability, in conjunction with 
 code to update the necessary rows based on what has changed
 """
+from datetime import datetime, timezone
 import click
 import psycopg2
 import pandas as pd
 from attribute_functions import last_sat_pass, last_wet_obs, last_wet_area
-from datetime import date, tzinfo
 
 
 @click.command()
@@ -42,7 +42,7 @@ def updatedb(database):
         record = cursor.fetchall()
 
         # Get today's date
-        dt_updated_value = date.today()
+        dt_updated_value = datetime.now(timezone.utc)
 
         # Update rows for each record in the table
         for uid_value, area_value, csv_value in record:

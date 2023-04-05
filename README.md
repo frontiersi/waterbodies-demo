@@ -52,7 +52,7 @@ echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/pat
 4. To add the sample waterbodies shapefile as a table in the database, run the following command, replacing `<username>` with your username (this appears just before the `$` in the terminal e.g. `waterbodies-demo janedoe$`)
 
 ```
-ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid -lco PRECISION=NO Pg:"dbname=waterbodies host=localhost user=<username> port=5432" data/waterbodies_sample.shp -overwrite
+ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco FID=fid -lco PRECISION=NO -mapFieldType Date=DateTime Pg:"dbname=waterbodies host=localhost user=<username> port=5432" data/waterbodies_sample.shp -overwrite
 ```
 
 5. In DBeaver, click the "waterbodies" database, then "Schemas" then "public" then "Tables". You should now see "dea_waterbodies" as an entry under "Tables"
