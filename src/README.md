@@ -2,7 +2,15 @@
 
 ## `src/updatedb.py`
 
-Takes the name of the database to update. The database must contain the following columns:
+Takes the following command line arguments:
+
+* `--user`: Server username; default=`postgres`
+* `--password`: Server pasword; default=`""`
+* `--host`: Server host; default=`localhost`
+* `--port`: Server port; default=`5432`
+* `--database`: Database to connect to; default=`waterbodies`
+
+The database must contain the following columns:
 
 * `uid`
 * `area_m2`
@@ -12,7 +20,7 @@ Takes the name of the database to update. The database must contain the followin
 * `wet_sa_m2`
 * `dt_updated`
 
-Run using `python src/updatedb.py --database waterbodies`
+Run using `python src/updatedb.py --user <user> --password <password> --host <host> --port <port> --database <database>`
 
 This script connects to the existing database, reads the csv stored in the `timeseries` column for each entry, calculates the new attributes, and commits their values to the database.
 
@@ -32,4 +40,4 @@ This script was developed during the project, but is no longer actively used. By
 * `longestl`: a well-known-text (WKT) string of the longest line geometry for the polygon
 * `longestl_m` : the length of the longest line geometry in metres
 
-> NOTE: The database connection settings are hard-coded in this script.
+> NOTE: The database connection settings are hard-coded in this script. They could be updated to match the `src/updatedb.py` script if desired.

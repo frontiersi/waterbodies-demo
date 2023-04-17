@@ -4,6 +4,11 @@ Update Database
 This script allows the user to connect to a database and return the version
 This is a baseline that will be adapted to have update capability, in conjunction with 
 code to update the necessary rows based on what has changed
+
+Could also take a path to the timeseries file if desired.
+The for loop could then be eliminated. 
+Connection to the database to request uid and area_m2 for 
+the corresponding timeseries is still required.
 """
 from datetime import datetime, timezone
 import click
@@ -13,8 +18,12 @@ from attribute_functions import last_sat_pass, last_wet_obs, last_wet_area
 
 
 @click.command()
+@click.option("--user", default="postgres", help="Server username")
+@click.option("--password", default="", help="Server pasword")
+@click.option("--host", default="localhost", help="Server host")
+@click.option("--port", default="5432", help="Server port")
 @click.option("--database", default="waterbodies", help="Database to connect to")
-def updatedb(database):
+def updatedb(user, password, host, port, database):
     """
     Connect to the provided database and retrieve version information
     """
@@ -22,10 +31,10 @@ def updatedb(database):
     try:
         # Create a connection to the database
         connection = psycopg2.connect(
-            user="postgres",
-            password="",
-            host="localhost",
-            port="5432",
+            user=user,
+            password=password,
+            host=host,
+            port=port,
             database=database,
         )
 
