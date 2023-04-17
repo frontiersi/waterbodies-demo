@@ -1,10 +1,7 @@
-# waterbodies-demo
-Prototype workflow for enhancing the features of the DEA waterbodies product.
-
-## Set up
+# Complete local workflow
 This workflow is currently only designed to run locally on Mac OS devices.
 
-### Step 1: Install GeoServer
+## Step 1: Install GeoServer
 1. Navigate to the [GeoServer Download page](http://geoserver.org/download)
 2. Click the "Stable" release
 3. Under Packages, click the "Platform Independent Binary"
@@ -18,7 +15,7 @@ This workflow is currently only designed to run locally on Mac OS devices.
 11. Open a terminal window and type `echo "export GEOSERVER_HOME=/usr/local/geoserver" >> ~/.profile`, then press Enter
 12. Close the terminal window
 
-### Step 2: Install Postgres.app
+## Step 2: Install Postgres.app
 1. Navigate to [Postgres.app Download page](https://postgresapp.com/downloads.html)
 2. Download the "Latest Release"
 3. Open the .dmg file and move the Postgres.app icon to the Applications folder
@@ -28,12 +25,12 @@ This workflow is currently only designed to run locally on Mac OS devices.
 echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp`
 7. Close the terminal window
 
-### Step 3: Install DBeaver
+## Step 3: Install DBeaver
 1. Navigate to the [DBeaver Download page](https://dbeaver.io/download/)
 2. Select the appropriate MacOS .dmg file (Check which chip you have by clicking the Apple icon in your main menu bar and selecting "About this Mac", then look for the "Chip" entry)
 3. Open the .dmg file and move the DBeaver icon to the Applications folder
 
-### Step 4: Create a spatial database
+## Step 4: Create a spatial database
 1. Open Postgres.app and start the server
 2. Open DBeaver and click the "New Database Connection" icon (first icon on the top left of the application window)
 3. Select PostgreSQL and click "Next"
@@ -45,7 +42,7 @@ echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/pat
 9. Type `CREATE EXTENSION postgis;` and press the play button (or Control+Enter on the keyboard)
 10. Replace the above by typing `SELECT postgis_full_version();` and press the play button (or Control+Enter on the keyboard). You should see a results table appear.
 
-### Step 5: Add a shapefile to the spatial database
+## Step 5: Add a shapefile to the spatial database
 1. Open your terminal and navigate to this repository
 2. Create the conda environment for this repository by running `conda env create -f environment.yml` in your terminal
 3. Activate the conda environement by running `conda activate waterbodies`
@@ -58,7 +55,7 @@ ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco 
 5. In DBeaver, click the "waterbodies" database, then "Schemas" then "public" then "Tables". You should now see "dea_waterbodies" as an entry under "Tables"
 6. Double click the "dea_waterbodies" entry to open it in the viewing panel. Click "Data" to see the entries
 
-### Step 6: Launch GeoServer and add the Database
+## Step 6: Launch GeoServer and add the Database
 1. Open your terminal and enter `cd /usr/local/geoserver/bin/`
 2. Enter `sh startup.sh` to start the GeoServer
 3. In your web browser, enter `http://localhost:8080/geoserver`
@@ -85,7 +82,7 @@ ogr2ogr -nln dea_waterbodies -nlt PROMOTE_TO_MULTI -lco GEOMETRY_NAME=geom -lco 
 
  You should then be able to see the dea_waterbodies in the Layers list
 
- ### Step 7: View the WFS on DEA Maps
+ ## Step 7: View the WFS on DEA Maps
  1. Open [DEA Maps](https://maps.dea.ga.gov.au/)
  2. Click "Explore Map Data"
  3. Click "My Data"
