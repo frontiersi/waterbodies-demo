@@ -5,7 +5,7 @@ Prototype workflow for adding new attributes to the DEA waterbodies product.
 
 ### Acknowledgement
 
-The development of the prototype workflow was funded and supported by Natural Hazards Research Australia through he project [Identifying water sources for aerial firefighting](https://www.naturalhazards.com.au/research/research-projects/identifying-water-sources-aerial-firefighting). FrontierSI would like to acknowledge the collaborations that have made this project possible, with Natural Hazards Research Australia (NHRA), National Aerial Firefighting Centre (NAFC), Geoscience Australia (GA), National Council for Fire and Emergency Services (AFAC) and Country Fire Authority Victoria (CFA).
+The development of the prototype workflow was funded and supported by Natural Hazards Research Australia through the project [Identifying water sources for aerial firefighting](https://www.naturalhazards.com.au/research/research-projects/identifying-water-sources-aerial-firefighting). FrontierSI would like to acknowledge the collaborations that have made this project possible, with Natural Hazards Research Australia (NHRA), National Aerial Firefighting Centre (NAFC), Geoscience Australia (GA), National Council for Fire and Emergency Services (AFAC) and Country Fire Authority Victoria (CFA).
 
 ## Overview of key scripts
 
